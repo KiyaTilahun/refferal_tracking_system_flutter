@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-     String _text = '';
+  String _text = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +25,26 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.end,children: [ TextButton(
-  style: ButtonStyle(
-    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-  ),
-  onPressed: () { },
-  child: Row(children: [Text("Using QR Code"),Icon(Icons.qr_code_scanner)],),
-            
-              ),],),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.blue),
+                        ),
+                        onPressed: () {
+                           Navigator.pushNamed(context, '/qrscanner');
+                        },
+                        child: Row(
+                          children: [
+                            Text("Using QR Code"),
+                            Icon(Icons.qr_code_scanner)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   Text(
                     'Login',
                     style: TextStyle(fontSize: 30),
@@ -66,10 +78,12 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                       height: 20.0), // Add space between TextField and button
                   ElevatedButton(
-                      style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blue), // Change background color
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Change text color
-                  ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.blue), // Change background color
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Colors.white), // Change text color
+                    ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
