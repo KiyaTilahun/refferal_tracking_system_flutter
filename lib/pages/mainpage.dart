@@ -9,10 +9,24 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>  with SingleTickerProviderStateMixin {
   final _textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+    late AnimationController _controller;
+  late Animation<double> _animation;
   String _text = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 4),
+    );
+    _animation = Tween<double>(begin: 1, end: 1.1).animate(_controller);
+    _controller.repeat(reverse: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +48,16 @@ class _LoginPageState extends State<LoginPage> {
                               MaterialStateProperty.all<Color>(Colors.blue),
                         ),
                         onPressed: () {
-                           Navigator.pushNamed(context, '/qrscanner');
+                          Navigator.pushNamed(context, '/qrscanner');
                         },
-                        child: Row(
-                          children: [
-                            Text("Using QR Code"),
-                            Icon(Icons.qr_code_scanner)
-                          ],
+                        child: ScaleTransition(
+                             scale: _animation,
+                          child: Row(
+                            children: [
+                              Text("Using QR Code"),
+                              Icon(Icons.qr_code_scanner)
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -86,11 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Text submitted: $_text'),
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/welcome_page");
                       }
                     },
                     child: Text('Submit'),
