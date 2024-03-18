@@ -17,45 +17,48 @@ class _WelcomePageState extends State<WelcomePage> {
         appBar: AppBar(
           title: Text("Welcome"),
         ),
-         drawer: Drawer(
-    child: ListView(padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Drawer Header',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+        drawer: Drawer(
+            child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              // decoration: BoxDecoration(
+              //   color: Colors.blue,
+              // ),
+              child: Image.asset(
+                'assets/images/logo.png',
+                 
+         
+              fit: BoxFit.cover,
               ),
             ),
-          ),
-          ListTile(
-            title: Text('Logout'),
-            onTap: () {
-              // Implement your logout logic here
-            },
-          ),
-          ListTile(
-            title: Text('Change Language'),
-            trailing: DropdownButton<String>(
-              value: 'English', // Default language value
-              onChanged: (String? newValue) {
-                // Implement language change logic here
+            ListTile(
+              leading: Icon(Icons.logout_outlined),
+              title: Text('Logout'),
+              onTap: () {
+                // Implement your logout logic here
               },
-              items: <String>['English', 'Spanish', 'French']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
             ),
-          ),
-        ],)// Populate the Drawer in the next step.
-  ),
+            ListTile(
+              leading: Icon(Icons.language_rounded),
+              title: Text('Change Language'),
+              trailing: DropdownButton<String>(
+                value: 'English', // Default language value
+                onChanged: (String? newValue) {
+                  // Implement language change logic here
+                },
+                items: <String>['English', 'Spanish', 'French']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ) // Populate the Drawer in the next step.
+            ),
         body: Expanded(
           child: Column(
             children: [
@@ -149,12 +152,21 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 SizedBox(width: 8),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    
                                     Text("Appointement Day:22/12/2024"),
-                                    
-                                    IconButton(style: ButtonStyle(backgroundColor:  MaterialStateProperty.all<Color>(Colors.red),foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),),onPressed: (){}, icon: Icon(Icons.edit))
+                                    IconButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.red),
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.white),
+                                        ),
+                                        onPressed: () {},
+                                        icon: Icon(Icons.edit))
                                   ],
                                 )
                               ],
