@@ -1,0 +1,14 @@
+{
+  "loginPageTitle": "የመግቢያ ገጽ",
+  "refferalid": "ሪፈራል ቁጥር አስገባ",
+  "submit": "ግባ",
+  "qrcode":"QR ኮድ በመጠቀም",
+  "changeLanguage":"ቋንቋ ቀይር",
+  "welcome":"እንኳን ደህና መጡ",
+  "name":"ስም",
+  "appointementDate":"የቀጠሮ ቀን",
+  "referredBy":"ከ :",
+  "referredTo":"ወደ : ",
+  "seeMore":"ተጨማሪ",
+ "logout":"ለመውጣት"
+  }

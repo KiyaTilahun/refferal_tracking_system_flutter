@@ -1,7 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings
 
+import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -15,7 +18,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Welcome"),
+          title: Text(AppLocalizations.of(context)!.welcome),
         ),
         drawer: Drawer(
             child: ListView(
@@ -34,27 +37,15 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             ListTile(
               leading: Icon(Icons.logout_outlined),
-              title: Text('Logout'),
+              title: Text(AppLocalizations.of(context)!.logout),
               onTap: () {
                 // Implement your logout logic here
               },
             ),
             ListTile(
-              leading: Icon(Icons.language_rounded),
-              title: Text('Change Language'),
-              trailing: DropdownButton<String>(
-                value: 'English', // Default language value
-                onChanged: (String? newValue) {
-                  // Implement language change logic here
-                },
-                items: <String>['English', 'Spanish', 'French']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              // leading: Icon(Icons.language_rounded),
+              
+              leading: Language().buildLanguageDropdown(context)
             ),
           ],
         ) // Populate the Drawer in the next step.
@@ -96,7 +87,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     Navigator.pushNamed(context, "/detail");
                                   },
                                   icon: Icon(Icons.remove_red_eye), // Icon
-                                  label: Text('See More'), // Text
+                                  label: Text(AppLocalizations.of(context)!.seeMore), // Text
                                 ),
                               ],
                             ),
@@ -113,7 +104,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  "Reffered by:Jimma Health Center",
+                                  AppLocalizations.of(context)!.referredBy +"Jimma Health Center",
                                   style: TextStyle(
                                     color: Colors.grey[800],
                                   ),
@@ -131,7 +122,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  "Reffered by:Jimma Health Center",
+                                  AppLocalizations.of(context)!.referredTo +"Mizan Health Center",
                                   style: TextStyle(
                                     color: Colors.grey[800],
                                   ),
@@ -155,7 +146,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Appointement Day:22/12/2024"),
+                                    Text( AppLocalizations.of(context)!.appointementDate+":22/12/2024"),
                                     IconButton(
                                         style: ButtonStyle(
                                           backgroundColor:

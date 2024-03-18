@@ -1,0 +1,13 @@
+{
+  "loginPageTitle": "Login",
+  "refferalid": "Enter Referral Number Here",
+  "submit": "Submit",
+  "qrcode":"Using QR code",
+   "changeLanguage":"Change Language",
+   "welcome":"Welcome",
+  "name":"Name",
+  "appointementDate":"Appointement Day",
+   "referredBy":"Referred By : ",
+  "referredTo":"Referred To : ",
+  "seeMore":"See More",
+  "logout":"Logout"}

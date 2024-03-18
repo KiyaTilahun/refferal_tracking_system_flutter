@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:final_year/main.dart';
+import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,10 +13,11 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>  with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   final _textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-    late AnimationController _controller;
+  late AnimationController _controller;
   late Animation<double> _animation;
   String _text = '';
 
@@ -30,86 +35,97 @@ class _LoginPageState extends State<LoginPage>  with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            Language().buildLanguageDropdown(context)
+           
+          ],
+        ),
         body: Center(
-      child: Padding(
-          padding: EdgeInsets.all(20.0), // Adjust padding as needed
-          child: Form(
-            key: _formKey,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+          child: Padding(
+              padding: EdgeInsets.all(20.0), // Adjust padding as needed
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.blue),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/qrscanner');
-                        },
-                        child: ScaleTransition(
-                             scale: _animation,
-                          child: Row(
-                            children: [
-                              Text("Using QR Code"),
-                              Icon(Icons.qr_code_scanner)
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.blue),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/qrscanner');
+                            },
+                            child: ScaleTransition(
+                              scale: _animation,
+                              child: Row(
+                                children: [
+                                  Text(AppLocalizations.of(context)!.qrcode),
+                                  Icon(Icons.qr_code_scanner)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.loginPageTitle,
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      TextFormField(
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.refferalid,
+                          border: OutlineInputBorder(),
+                          hintText: 'Type here...',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              _textController.clear();
+                            },
+                            icon: Icon(Icons.clear),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'Login',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  TextFormField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Referral Number Here',
-                      border: OutlineInputBorder(),
-                      hintText: 'Type here...',
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          _textController.clear();
+                        validator: (reference) {
+                          if (reference!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          if (reference.length < 5) {
+                            return 'Text must be at least 5 characters long';
+                          }
+                          return null;
                         },
-                        icon: Icon(Icons.clear),
+                        onSaved: (newValue) {
+                          _text = newValue!;
+                        },
                       ),
-                    ),
-                    validator: (reference) {
-                      if (reference!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      if (reference.length < 5) {
-                        return 'Text must be at least 5 characters long';
-                      }
-                      return null;
-                    },
-                    onSaved: (newValue) {
-                      _text = newValue!;
-                    },
-                  ),
-                  SizedBox(
-                      height: 20.0), // Add space between TextField and button
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.blue), // Change background color
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Change text color
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, "/welcome_page");
-                      }
-                    },
-                    child: Text('Submit'),
-                  ),
-                ]),
-          )),
-    ));
+                      SizedBox(
+                          height:
+                              20.0), // Add space between TextField and button
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.blue), // Change background color
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Colors.white), // Change text color
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, "/welcome_page");
+                          }
+                        },
+                        child: Text(AppLocalizations.of(context)!.submit),
+                      ),
+                    ]),
+              )),
+        ));
   }
+
+  // drop down for language
+
+
 }
