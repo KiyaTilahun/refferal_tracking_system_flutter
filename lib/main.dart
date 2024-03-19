@@ -1,21 +1,22 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:final_year/pages/calendarpage.dart';
 import 'package:final_year/pages/detailpage.dart';
 import 'package:final_year/pages/mainpage.dart';
 import 'package:final_year/pages/qrscanner.dart';
 import 'package:final_year/pages/welcome_page.dart';
+import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Future.delayed(const Duration(seconds: 5));
-  FlutterNativeSplash.remove();
-  runApp(const MyApp());
+void main()  {
+ 
+  runApp(ChangeNotifierProvider(create: (context)=>ThemeProvider(),child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     // Add more delegates as needed
   ],
       
-theme: darkTheme,
+theme: Provider.of<ThemeProvider>(context).themedata,
      
       // theme: ThemeData(
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -67,6 +68,8 @@ theme: darkTheme,
     '/qrscanner': (context) => const QrPage(),
     '/welcome_page': (context) => const WelcomePage(),
     '/detail': (context) => const Detail(),
+    '/edit': (context) => const Calendar(),
+
 
 
 

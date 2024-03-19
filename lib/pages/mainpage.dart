@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:final_year/main.dart';
+
+import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:final_year/theme/themes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,6 +26,15 @@ class _LoginPageState extends State<LoginPage>
   late Animation<double> _animation;
   String _text = '';
 
+  
+
+  List<Icon> icons = [
+    Icon(Icons.sunny, color: Colors.white), // For name
+    Icon(
+      Icons.nights_stay,
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -34,12 +48,22 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+     ThemeData theme =Provider.of<ThemeProvider>(context).themedata;
+
+    bool dark = theme==darkTheme?true:false;
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            Language().buildLanguageDropdown(context)
-           
-          ],
+          leading: IconButton(
+              onPressed: () {
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .toggleTheme();
+                
+                      setState(() {
+                  dark = !dark;
+                });
+              },
+              icon: dark ? icons[0] : icons[1]),
+          actions: [  Language().buildLanguageDropdown(context),],
         ),
         body: Center(
           child: Padding(
@@ -54,10 +78,7 @@ class _LoginPageState extends State<LoginPage>
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            style: ButtonStyle(
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.blue),
-                            ),
+                           
                             onPressed: () {
                               Navigator.pushNamed(context, '/qrscanner');
                             },
@@ -126,6 +147,4 @@ class _LoginPageState extends State<LoginPage>
   }
 
   // drop down for language
-
-
 }

@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings
 
+import 'package:final_year/theme/appTheme.dart';
+import 'package:final_year/theme/themes.dart';
 import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -13,11 +15,33 @@ class WelcomePage extends StatefulWidget {
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
+List<Icon> icons = [
+  Icon(Icons.sunny, color: Colors.white), // For name
+  Icon(
+    Icons.nights_stay,
+  ),
+];
+
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Provider.of<ThemeProvider>(context).themedata;
+
+    bool dark = theme == darkTheme ? true : false;
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme();
+
+                  setState(() {
+                    dark = !dark;
+                  });
+                },
+                icon: dark ? icons[0] : icons[1]),
+          ],
           title: Text(AppLocalizations.of(context)!.welcome),
         ),
         drawer: Drawer(
@@ -30,9 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
               // ),
               child: Image.asset(
                 'assets/images/logo.png',
-                 
-         
-              fit: BoxFit.cover,
+                fit: BoxFit.cover,
               ),
             ),
             ListTile(
@@ -40,13 +62,14 @@ class _WelcomePageState extends State<WelcomePage> {
               title: Text(AppLocalizations.of(context)!.logout),
               onTap: () {
                 // Implement your logout logic here
+                Navigator.popUntil(context, ModalRoute.withName("/"));
               },
             ),
             ListTile(
-              // leading: Icon(Icons.language_rounded),
-              
-              leading: Language().buildLanguageDropdown(context)
-            ),
+                // leading: Icon(Icons.language_rounded),
+
+                leading: Language().buildLanguageDropdown(context)),
+                
           ],
         ) // Populate the Drawer in the next step.
             ),
@@ -57,7 +80,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -78,16 +101,14 @@ class _WelcomePageState extends State<WelcomePage> {
                               children: [
                                 Text(
                                   "Mr.Kiya Tilahun",
-                                  style: TextStyle(
-                                    color: Colors.blue[800],
-                                  ),
                                 ),
                                 ElevatedButton.icon(
                                   onPressed: () {
                                     Navigator.pushNamed(context, "/detail");
                                   },
                                   icon: Icon(Icons.remove_red_eye), // Icon
-                                  label: Text(AppLocalizations.of(context)!.seeMore), // Text
+                                  label: Text(AppLocalizations.of(context)!
+                                      .seeMore), // Text
                                 ),
                               ],
                             ),
@@ -104,10 +125,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  AppLocalizations.of(context)!.referredBy +"Jimma Health Center",
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                  ),
+                                  AppLocalizations.of(context)!.referredBy +
+                                      "Jimma Health Center",
                                 ),
                               ],
                             ),
@@ -122,10 +141,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  AppLocalizations.of(context)!.referredTo +"Mizan Health Center",
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                  ),
+                                  AppLocalizations.of(context)!.referredTo +
+                                      "Mizan Health Center",
                                 ),
                               ],
                             ),
@@ -146,7 +163,9 @@ class _WelcomePageState extends State<WelcomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text( AppLocalizations.of(context)!.appointementDate+":22/12/2024"),
+                                    Text(AppLocalizations.of(context)!
+                                            .appointementDate +
+                                        ":22/12/2024"),
                                     IconButton(
                                         style: ButtonStyle(
                                           backgroundColor:
@@ -156,7 +175,9 @@ class _WelcomePageState extends State<WelcomePage> {
                                               MaterialStateProperty.all<Color>(
                                                   Colors.white),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, "/edit");
+                                        },
                                         icon: Icon(Icons.edit))
                                   ],
                                 )

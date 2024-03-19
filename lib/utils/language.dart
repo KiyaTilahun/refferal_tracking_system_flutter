@@ -37,10 +37,11 @@ class Language{
         ),
         // Add more DropdownMenuItems for additional languages
       ],
-      onChanged: (String? value) {
+      onChanged: (String? value) async{
         if (value != null) {
           final locale = Locale(value);
-            MyApp.setLocale(context, locale); 
+             MyApp.setLocale(context, locale); 
+            // Navigator.of(context).pop();
         }
       },
     );
