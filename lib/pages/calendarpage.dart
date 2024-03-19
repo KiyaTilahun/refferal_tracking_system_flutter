@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_element, deprecated_member_use, avoid_print
+// ignore_for_file: prefer_const_constructors, unused_element, deprecated_member_use, avoid_print, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,13 +11,10 @@ class Calendar extends StatefulWidget {
 }
 
 CalendarFormat _calendarFormat = CalendarFormat.month;
-DateTime _focusedDay = DateTime.now();
-DateTime? _selectedDay;
-List<DateTime> availableDates = [
-  DateTime.now().add(Duration(days: 1)),
-  DateTime.now().add(Duration(days: 3)),
-  DateTime.now().add(Duration(days: 5)),
-];
+
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  DateTime? _appointmentDate=DateTime.now();
 
 class _CalendarState extends State<Calendar> {
   @override
@@ -26,18 +23,42 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-          child: TableCalendar(
-        locale: WidgetsBinding.instance.window.locale.toString()=='en'?'en':'am_ET',
-
-        firstDay: DateTime.utc(2020, 1, 1),
+          
+      child:  TableCalendar(
+          locale: WidgetsBinding.instance.window.locale.toString()=='en'?'en':'am_ET',
+          
+        firstDay: _appointmentDate!.toUtc(),
         lastDay: DateTime.utc(2030, 12, 31),
         focusedDay: _focusedDay,
-        availableGestures: AvailableGestures.all,
-calendarStyle: CalendarStyle(disabledTextStyle: ),
         calendarFormat: _calendarFormat,
-
-        //
-      )),
-    );
+        selectedDayPredicate: (day) {
+          return isSameDay(_selectedDay, day);
+        },
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
+        },
+       enabledDayPredicate: (day) {
+            // Enable days starting from the selected appointment date
+            if (_appointmentDate != null) {
+              return !day.isBefore(_appointmentDate!);
+            }
+            return true; // By default, enable all days
+          },
+        
+      ),
+      
+     
+    ), floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Set the appointment date and rebuild the widget
+          setState(() {
+            _appointmentDate = DateTime.now().subtract(Duration(days: 7)); // Example: 7 days before today
+          });
+        },
+        child: Icon(Icons.add),
+      ),);
   }
 }
