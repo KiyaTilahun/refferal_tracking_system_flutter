@@ -21,12 +21,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   final _textController = TextEditingController();
+  final _tokenController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   late AnimationController _controller;
   late Animation<double> _animation;
   String _text = '';
-
-  
 
   List<Icon> icons = [
     Icon(Icons.sunny, color: Colors.white), // For name
@@ -48,22 +48,24 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-     ThemeData theme =Provider.of<ThemeProvider>(context).themedata;
+    ThemeData theme = Provider.of<ThemeProvider>(context).themedata;
 
-    bool dark = theme==darkTheme?true:false;
+    bool dark = theme == darkTheme ? true : false;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
                 Provider.of<ThemeProvider>(context, listen: false)
                     .toggleTheme();
-                
-                      setState(() {
+
+                setState(() {
                   dark = !dark;
                 });
               },
               icon: dark ? icons[0] : icons[1]),
-          actions: [  Language().buildLanguageDropdown(context),],
+          actions: [
+            Language().buildLanguageDropdown(context),
+          ],
         ),
         body: Center(
           child: Padding(
@@ -78,7 +80,6 @@ class _LoginPageState extends State<LoginPage>
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                           
                             onPressed: () {
                               Navigator.pushNamed(context, '/qrscanner');
                             },
@@ -124,6 +125,34 @@ class _LoginPageState extends State<LoginPage>
                           _text = newValue!;
                         },
                       ),
+                      SizedBox(height: 20.0),
+
+                      TextFormField(
+                        controller: _tokenController,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.token,
+                          border: OutlineInputBorder(),
+                          hintText: 'Type here...',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              _tokenController.clear();
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                        validator: (reference) {
+                          if (reference!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          if (reference.length < 5) {
+                            return 'Text must be at least 5 characters long';
+                          }
+                          return null;
+                        },
+                        onSaved: (newValue) {
+                          _text = newValue!;
+                        },
+                      ),
                       SizedBox(
                           height:
                               20.0), // Add space between TextField and button
@@ -134,10 +163,14 @@ class _LoginPageState extends State<LoginPage>
                           foregroundColor: MaterialStateProperty.all<Color>(
                               Colors.white), // Change text color
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, "/welcome_page");
+                            final token = _tokenController.text;
                           }
+
+                          // if (_formKey.currentState!.validate()) {
+                          //   Navigator.pushNamed(context, "/welcome_page");
+                          // }
                         },
                         child: Text(AppLocalizations.of(context)!.submit),
                       ),

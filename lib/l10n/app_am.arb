@@ -1,6 +1,7 @@
 {
   "loginPageTitle": "የመግቢያ ገጽ",
-  "refferalid": "ሪፈራል ቁጥር አስገባ",
+  "refferalid": "ሪፈራል ካርድ አስገቡ",
+  "token": "የግል መለያ አስገቡ",
   "submit": "ግባ",
   "qrcode":"QR ኮድ በመጠቀም",
   "changeLanguage":"ቋንቋ ቀይር",

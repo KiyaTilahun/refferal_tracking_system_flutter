@@ -1,6 +1,7 @@
 {
   "loginPageTitle": "Login",
   "refferalid": "Enter Referral Number Here",
+  "token": "Enter personal token",
   "submit": "Submit",
   "qrcode":"Using QR code",
    "changeLanguage":"Change Language",
