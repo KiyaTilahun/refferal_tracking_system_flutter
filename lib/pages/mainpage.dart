@@ -3,6 +3,7 @@
 import 'package:final_year/main.dart';
 
 import 'package:final_year/theme/appTheme.dart';
+import 'package:final_year/utils/authorization.dart';
 import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -165,7 +166,22 @@ class _LoginPageState extends State<LoginPage>
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                            final referralId = _textController.text;
                             final token = _tokenController.text;
+                            try {
+                              // print(token);
+                              final patientData =
+                                  await LoginState.fetchPatientData(
+                                      referralId, token);
+                              print(
+                                  'Patient Data: $patientData'); // Log the result or process further
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Error: Check Your Card or Token')), // Display error message
+                              );
+                            }
                           }
 
                           // if (_formKey.currentState!.validate()) {
