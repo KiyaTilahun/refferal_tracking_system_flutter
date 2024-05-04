@@ -1,26 +1,37 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:final_year/providers/appointmentdays.dart';
+import 'package:final_year/providers/cardNumberprovider.dart';
 import 'package:final_year/providers/referrprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
+import 'package:final_year/utils/appointmenthttp.dart';
 import 'package:final_year/utils/referralhttp.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ReferralsList extends StatelessWidget {
+class ReferralsList extends StatefulWidget {
   final List referrals;
 
   ReferralsList({required this.referrals});
 
   @override
+  State<ReferralsList> createState() => _ReferralsListState();
+}
+
+class _ReferralsListState extends State<ReferralsList> {
+  int? _loadingIndex;
+
+  @override
   Widget build(BuildContext context) {
     String token = Provider.of<TokenProvider>(context).token;
+    String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
     print(token);
     final today = DateTime.now();
     return ListView.builder(
-      itemCount: referrals.length,
+      itemCount: widget.referrals.length,
       itemBuilder: (context, index) {
-        final referral = referrals[index];
+        final referral = widget.referrals[index];
         final referralDate = DateTime.parse(referral['referral_date']);
         final datename = DateFormat.yMMMMd()
             .format(DateTime.parse(referral['referral_date']));
@@ -55,39 +66,60 @@ class ReferralsList extends StatelessWidget {
                             "Referral ID: ${referral['id']}",
                           ),
                           ElevatedButton.icon(
-                            onPressed: () async {
-                              // print(referral['card_number']);
-                              final cardnumber = referral['card_number'];
-                              final referid = referral['id'].toString();
-                              try {
-                                final referrdata =
-                                    await ReferrState.fetchReferral(
-                                        cardnumber, referid, token);
-                                Provider.of<ReferrProvider>(context,
-                                        listen: false)
-                                    .referr = referrdata;
+                            onPressed: _loadingIndex == index
+                                ? null // Disable if loading
+                                : () async {
+                                    setState(() {
+                                      _loadingIndex = index; // Start loading
+                                    });
+                                    final cardnumber = referral['card_number'];
+                                    final referid = referral['id'].toString();
+                                    try {
+                                      final referrdata =
+                                          await ReferrState.fetchReferral(
+                                              cardnumber, referid, token);
+                                      Provider.of<ReferrProvider>(context,
+                                              listen: false)
+                                          .referr = referrdata;
 
-                                print(referrdata);
-                                Navigator.pushNamed(
-                                  context,
-                                  "/referral_detail",
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          'Error:$e')), // Display error message
-                                );
-                              }
-                            },
-                            icon: iconcolor(referral), // Icon
-                            label: Text(
-                              referral['statustype'],
-                              style: TextStyle(
-                                  color: referral['statustype'] == 'completed'
-                                      ? Colors.green
-                                      : Colors.orange),
-                            ), // Text
+                                      print(referrdata);
+                                      Navigator.pushNamed(
+                                        context,
+                                        "/referral_detail",
+                                      );
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Error:$e')), // Display error message
+                                      );
+                                    } finally {
+                                      setState(() {
+                                        _loadingIndex = null; // Start loading
+                                      });
+                                    }
+                                  },
+                            icon: _loadingIndex == index
+                                ? CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      referral['statustype'] == 'completed'
+                                          ? Colors.green
+                                          : Colors.orange,
+                                    ),
+                                  ) // Show spinner when loading
+                                : iconcolor(referral),
+                            label: _loadingIndex == index
+                                ? Text("") // Empty text during loading
+                                : Text(
+                                    referral['statustype'],
+                                    style: TextStyle(
+                                        color: referral['statustype'] ==
+                                                'completed'
+                                            ? Colors.green
+                                            : Colors.orange),
+                                  ), // Text
                           ),
                         ],
                       ),
@@ -142,8 +174,24 @@ class ReferralsList extends StatelessWidget {
                               if (referralDate.isAfter(today) &&
                                   referral['statustype'] == "pending")
                                 IconButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, "/edit");
+                                  onPressed: () async {
+                                    final referrdate = referral['referral_date'];
+                                  
+                                    try {
+                                      final appointmentdata =
+                                          await AppointmentState.fetchReferral(
+                                              referralcard, referrdate, token);
+                                      Provider.of<AppointmentDaysProvider>(context,
+                                              listen: false)
+                                          .days = appointmentdata;
+
+                                      // print(referrdata);
+                                      Navigator.pushNamed(
+                                        context,
+                                        "/edit",arguments: referrdate
+                                      );
+                                    } catch (e) {}
+                                    // Navigator.pushNamed(context, "/edit");
                                   },
                                   icon: const Icon(Icons.edit),
                                 ),

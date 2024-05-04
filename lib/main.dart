@@ -6,6 +6,8 @@ import 'package:final_year/pages/mainpage.dart';
 import 'package:final_year/pages/qrscanner.dart';
 import 'package:final_year/pages/referraldetail.dart';
 import 'package:final_year/pages/welcome_page.dart';
+import 'package:final_year/providers/appointmentdays.dart';
+import 'package:final_year/providers/cardNumberprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/providers/referrprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
@@ -19,13 +21,18 @@ import 'package:provider/provider.dart';
 
 
 void main()  {
- 
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp( MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),  // Theme management
         ChangeNotifierProvider(create: (_) => TokenProvider()),  // Token management
         ChangeNotifierProvider(create: (_) => PatientProvider()),  // patient management
+        ChangeNotifierProvider(create: (_) => CardNumberProvider()),//cardnnumber holder
         ChangeNotifierProvider(create: (_) => ReferrProvider()),  // referr detail management
+        ChangeNotifierProvider(create: (_) => AppointmentDaysProvider()),  // Appointment days management
+
+         
 
 
       ],
@@ -34,6 +41,7 @@ void main()  {
 }
 
 class MyApp extends StatefulWidget {
+ 
  static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
@@ -42,11 +50,21 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+  
 }
 
 class _MyAppState extends State<MyApp> {
   Locale _locale = Locale('en'); // Default locale
 
+ @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 3), () {
+      
+      FlutterNativeSplash.remove();
+    });
+  }
   void setLocale(Locale newLocale) {
     setState(() {
       _locale = newLocale;

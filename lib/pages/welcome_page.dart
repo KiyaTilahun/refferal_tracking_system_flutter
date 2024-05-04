@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings
 
 import 'package:final_year/helper/referrallist.dart';
+import 'package:final_year/providers/cardNumberprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/theme/themes.dart';
@@ -27,6 +28,9 @@ class _WelcomePageState extends State<WelcomePage> {
     // print(args);
 
     final patient = Provider.of<PatientProvider>(context).patient;
+    //  Provider.of<ThemeProvider>(context).themedata=patientData["patient"]?["Referral Id"];
+ Provider.of<CardNumberProvider>(context, listen: false)
+                                  .cardnumber =patient['patient']['Referral Id'];    
     List referrals = patient['referrals'];
     if (patient != null) {
       // Map<String, dynamic> patientdetail = patient['patient'];
