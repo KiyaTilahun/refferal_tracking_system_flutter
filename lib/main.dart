@@ -4,7 +4,11 @@ import 'package:final_year/pages/calendarpage.dart';
 import 'package:final_year/pages/detailpage.dart';
 import 'package:final_year/pages/mainpage.dart';
 import 'package:final_year/pages/qrscanner.dart';
+import 'package:final_year/pages/referraldetail.dart';
 import 'package:final_year/pages/welcome_page.dart';
+import 'package:final_year/providers/patientprovider.dart';
+import 'package:final_year/providers/referrprovider.dart';
+import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/theme/themes.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +20,17 @@ import 'package:provider/provider.dart';
 
 void main()  {
  
-  runApp(ChangeNotifierProvider(create: (context)=>ThemeProvider(),child: const MyApp()));
+  runApp( MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),  // Theme management
+        ChangeNotifierProvider(create: (_) => TokenProvider()),  // Token management
+        ChangeNotifierProvider(create: (_) => PatientProvider()),  // patient management
+        ChangeNotifierProvider(create: (_) => ReferrProvider()),  // referr detail management
+
+
+      ],
+      child: MyApp(),
+    ),);
 }
 
 class MyApp extends StatefulWidget {
@@ -67,6 +81,8 @@ theme: Provider.of<ThemeProvider>(context).themedata,
     '/login': (context) => const  LoginPage(),
     '/qrscanner': (context) => const QrPage(),
     '/welcome_page': (context) => const WelcomePage(),
+    '/referral_detail': (context) => const ReferrDetail(),
+
     '/detail': (context) => const Detail(),
     '/edit': (context) => const Calendar(),
 

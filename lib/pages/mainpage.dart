@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:final_year/main.dart';
+import 'package:final_year/providers/patientprovider.dart';
+import 'package:final_year/providers/tokenprovide.dart';
 
 import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/utils/authorization.dart';
@@ -165,16 +167,51 @@ class _LoginPageState extends State<LoginPage>
                               Colors.white), // Change text color
                         ),
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                      //     if (_formKey.currentState!.validate()) {
+                      //       final referralId = _textController.text;
+                      //       final token = _tokenController.text;
+                      //       try {
+                      //         // print(token);
+                      //         final patientData =
+                      //             await LoginState.fetchPatientData(
+                      //                 referralId, token);
+                      //         // ignore: use_build_context_synchronously
+                      //         Provider.of<TokenProvider>(context, listen: false)
+                      //             .token = token;
+                      //              Provider.of<PatientProvider>(context, listen: false)
+                      //             .patient = patientData;
+                      //         // print('Patient Data: $patientData');
+                      //         // Log the result or process further
+                      //         Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
+                      // );
+                      //       } catch (e) {
+                      //         ScaffoldMessenger.of(context).showSnackBar(
+                      //           SnackBar(
+                      //               content: Text(
+                      //                   'Error: Check Your Card or Token')), // Display error message
+                      //         );
+                      //       }
+                      //     }
+
+
                             final referralId = _textController.text;
                             final token = _tokenController.text;
                             try {
                               // print(token);
                               final patientData =
                                   await LoginState.fetchPatientData(
-                                      referralId, token);
-                              print(
-                                  'Patient Data: $patientData'); // Log the result or process further
+                                      "REF8700H1Dkiya052024", "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4");
+                              // ignore: use_build_context_synchronously
+                              // Provider.of<TokenProvider>(context, listen: false)
+                              //     .token = token;
+                         Provider.of<TokenProvider>(context, listen: false)
+                                  .token = "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4";     
+                                   Provider.of<PatientProvider>(context, listen: false)
+                                  .patient = patientData;
+                              // print('Patient Data: $patientData');
+                              // Log the result or process further
+                              Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
+                      );
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -182,7 +219,8 @@ class _LoginPageState extends State<LoginPage>
                                         'Error: Check Your Card or Token')), // Display error message
                               );
                             }
-                          }
+                      
+
 
                           // if (_formKey.currentState!.validate()) {
                           //   Navigator.pushNamed(context, "/welcome_page");

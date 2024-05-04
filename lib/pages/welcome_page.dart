@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings
 
+import 'package:final_year/helper/referrallist.dart';
+import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/theme/themes.dart';
 import 'package:final_year/utils/language.dart';
@@ -15,22 +17,25 @@ class WelcomePage extends StatefulWidget {
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
-List<Icon> icons = [
-  Icon(Icons.sunny, color: Colors.white), // For name
-  Icon(
-    Icons.nights_stay,
-  ),
-];
-
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Provider.of<ThemeProvider>(context).themedata;
 
     bool dark = theme == darkTheme ? true : false;
+    // final args =ModalRoute.of(context)?.settings.arguments as Map<String,dynamic>;
+    // print(args);
+
+    final patient = Provider.of<PatientProvider>(context).patient;
+    List referrals = patient['referrals'];
+    if (patient != null) {
+      // Map<String, dynamic> patientdetail = patient['patient'];
+    }
     return Scaffold(
         appBar: AppBar(
           actions: [
+            IconButton(onPressed: (){ Navigator.pushNamed(context, "/detail");}, icon: Icon(Icons.person), // This uses the "person" icon
+            tooltip: 'Edit Profile' ),
             IconButton(
                 onPressed: () {
                   Provider.of<ThemeProvider>(context, listen: false)
@@ -69,129 +74,25 @@ class _WelcomePageState extends State<WelcomePage> {
                 // leading: Icon(Icons.language_rounded),
 
                 leading: Language().buildLanguageDropdown(context)),
-                
           ],
         ) // Populate the Drawer in the next step.
             ),
         body: Expanded(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 10,
-                      color: Colors.red,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Mr.Kiya Tilahun",
-                                ),
-                                ElevatedButton.icon(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, "/detail");
-                                  },
-                                  icon: Icon(Icons.remove_red_eye), // Icon
-                                  label: Text(AppLocalizations.of(context)!
-                                      .seeMore), // Text
-                                ),
-                              ],
-                            ),
-                            // Add some spacing between the title and the subtitle
-                            Container(height: 5),
-                            // Add a subtitle widget
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons
-                                      .local_hospital_rounded, // Choose the icon you want
-                                  color: Colors
-                                      .green, // Customize the icon color if needed
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  AppLocalizations.of(context)!.referredBy +
-                                      "Jimma Health Center",
-                                ),
-                              ],
-                            ),
-                            Container(height: 5),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons
-                                      .local_hospital, // Choose the icon you want
-                                  color: Colors
-                                      .blue, // Customize the icon color if needed
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  AppLocalizations.of(context)!.referredTo +
-                                      "Mizan Health Center",
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Icon(
-                                  Icons
-                                      .calendar_month, // Choose the icon you want
-                                  color: Colors
-                                      .blue, // Customize the icon color if needed
-                                ),
-                                SizedBox(width: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(AppLocalizations.of(context)!
-                                            .appointementDate +
-                                        ":22/12/2024"),
-                                    IconButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.red),
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pushNamed(context, "/edit");
-                                        },
-                                        icon: Icon(Icons.edit))
-                                  ],
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+      //     child:ListView.builder(
+      // itemCount: referrals.length,
+      // itemBuilder: (context, index) {
+      //   final referral = referrals[index];
+
+      //   return Text("Referral ID:");})
+             child:ReferralsList(referrals: referrals)
+
         ));
   }
 }
+
+List<Icon> icons = [
+  Icon(Icons.sunny, color: Colors.white), // For name
+  Icon(
+    Icons.nights_stay,
+  ),
+];

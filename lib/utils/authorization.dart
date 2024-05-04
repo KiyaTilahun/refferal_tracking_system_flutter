@@ -4,7 +4,7 @@ import 'dart:convert';
 class LoginState {
   static Future<Map<String, dynamic>> fetchPatientData(
       String referralId, String token) async {
-    print(referralId);
+    // print("result");
 
     final url = 'http://127.0.0.1:8000/api/patient/$referralId';
 
