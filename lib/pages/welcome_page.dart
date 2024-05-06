@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings, prefer_conditional_assignment
 
 import 'package:final_year/helper/referrallist.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
@@ -19,27 +19,60 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+   Map<String, dynamic>? patient;
+   bool isRefreshing = true;
+    @override
+  void initState() {
+    super.initState();
+    _refreshData(); // Initial data fetch
+  }
+
+  Future<void> _refreshData() async {
+     setState(() {
+      isRefreshing = true; 
+    });
+    await Provider.of<PatientProvider>(context, listen: false).fetchPatientData(); 
+    setState(() {
+      patient = Provider.of<PatientProvider>(context, listen: false).patient; 
+      isRefreshing = false; 
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Provider.of<ThemeProvider>(context).themedata;
 
     bool dark = theme == darkTheme ? true : false;
-    // final args =ModalRoute.of(context)?.settings.arguments as Map<String,dynamic>;
-    // print(args);
 
-    final patient = Provider.of<PatientProvider>(context).patient;
-    //  Provider.of<ThemeProvider>(context).themedata=patientData["patient"]?["Referral Id"];
- Provider.of<CardNumberProvider>(context, listen: false)
-                                  .cardnumber =patient['patient']['Referral Id'];    
-    List referrals = patient['referrals'];
+   
+      patient = Provider.of<PatientProvider>(context).patient;
+    
+
+    Provider.of<CardNumberProvider>(context, listen: false).cardnumber =
+        patient?['patient']['Referral Id'];
+    List referrals = patient?['referrals'];
     if (patient != null) {
       // Map<String, dynamic> patientdetail = patient['patient'];
     }
     return Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(onPressed: (){ Navigator.pushNamed(context, "/detail");}, icon: Icon(Icons.person), // This uses the "person" icon
-            tooltip: 'Edit Profile' ),
+             if (isRefreshing)
+            Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(color: Colors.white), 
+              ),
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/detail");
+                },
+                icon: Icon(Icons.person), // This uses the "person" icon
+                tooltip: 'Edit Profile'),
             IconButton(
                 onPressed: () {
                   Provider.of<ThemeProvider>(context, listen: false)
@@ -50,6 +83,10 @@ class _WelcomePageState extends State<WelcomePage> {
                   });
                 },
                 icon: dark ? icons[0] : icons[1]),
+                 IconButton(
+            icon: Icon(Icons.refresh), 
+            onPressed: _refreshData, 
+          ),
           ],
           title: Text(AppLocalizations.of(context)!.welcome),
         ),
@@ -82,15 +119,8 @@ class _WelcomePageState extends State<WelcomePage> {
         ) // Populate the Drawer in the next step.
             ),
         body: Expanded(
-      //     child:ListView.builder(
-      // itemCount: referrals.length,
-      // itemBuilder: (context, index) {
-      //   final referral = referrals[index];
-
-      //   return Text("Referral ID:");})
-             child:ReferralsList(referrals: referrals)
-
-        ));
+            
+            child: RefreshIndicator(onRefresh:_refreshData,child: ReferralsList(referrals: referrals))));
   }
 }
 

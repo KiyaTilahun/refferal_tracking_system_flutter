@@ -190,7 +190,11 @@ class _ReferralsListState extends State<ReferralsList> {
                                         context,
                                         "/edit",arguments: referrdate
                                       );
-                                    } catch (e) {}
+                                    } catch (e) {
+                                       ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error occurred: Try Again Later')),
+      );
+                                    }
                                     // Navigator.pushNamed(context, "/edit");
                                   },
                                   icon: const Icon(Icons.edit),
