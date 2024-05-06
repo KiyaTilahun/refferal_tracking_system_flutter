@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:final_year/pages/calendarpage.dart';
+import 'package:final_year/pages/demo.dart';
 import 'package:final_year/pages/detailpage.dart';
 import 'package:final_year/pages/mainpage.dart';
 import 'package:final_year/pages/qrscanner.dart';
@@ -106,6 +107,8 @@ theme: Provider.of<ThemeProvider>(context).themedata,
 
     '/detail': (context) => const Detail(),
     '/edit': (context) => const Calendar(),
+    '/demo': (context) => const Demo(),
+
 
 
 

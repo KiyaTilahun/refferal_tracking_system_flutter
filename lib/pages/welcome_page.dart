@@ -30,9 +30,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   void initState() {
     super.initState();
-WidgetsBinding.instance.addPostFrameCallback((_) {
-      _refreshData();
-    });
+// WidgetsBinding.instance.addPostFrameCallback((_) {
+//       _refreshData();
+//     });
     // _refreshData();
     isRefreshing = false; // Initial data fetch
   }
@@ -160,10 +160,10 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
           ],
         ) // Populate the Drawer in the next step.
             ),
-        body: Expanded(
-            child: RefreshIndicator(
-                onRefresh: _refreshData,
-                child: ReferralsList(referrals: referrals))));
+        body: Column(
+            children: [Expanded(
+                
+                child: ReferralsList(referrals: referrals))]));
   }
 }
 

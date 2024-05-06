@@ -233,7 +233,7 @@ class _LoginPageState extends State<LoginPage>
                                     //     await LoginState.fetchPatientData(
                                     //         "REF8700H1Dkiya052024",
                                     //         "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4",
-                                    //         "127.0.0.1:8000");
+                                    //         "192.168.1.12:8000");
 
                                               final patientData =
                                              await LoginState.fetchPatientData(
@@ -242,14 +242,14 @@ class _LoginPageState extends State<LoginPage>
                                       Provider.of<TokenProvider>(context,
                                                   listen: false)
                                               .token =
-                                          "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4";
+                                          token;
                                       Provider.of<IpProvider>(context,
                                               listen: false)
                                           .ipnumber = ipadress;
 
-                                      // Provider.of<CardNumberProvider>(context,
-                                      //         listen: false)
-                                      //     .cardnumber = referralId;
+                                      Provider.of<CardNumberProvider>(context,
+                                              listen: false)
+                                          .cardnumber = referralId;
 
                                       Provider.of<PatientProvider>(context,
                                               listen: false)
@@ -259,8 +259,12 @@ class _LoginPageState extends State<LoginPage>
                                       Navigator.pushNamed(
                                         context,
                                         "/welcome_page",
-                                        arguments: patientData,
                                       );
+                                      // Navigator.pushNamed(
+                                      //   context,
+                                      //   "/demo",
+                                        
+                                      // );
                                     }
                                   } catch (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(

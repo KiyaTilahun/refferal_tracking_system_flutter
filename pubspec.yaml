@@ -48,6 +48,7 @@ flutter_native_splash:
   android: true
   color: '#ffffff'
   web: false
+  image: assets/images/mylogo.png
 
 dev_dependencies:
   flutter_test:
