@@ -2,10 +2,12 @@
 
 import 'package:final_year/providers/appointmentdays.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
+import 'package:final_year/providers/ipprovider.dart';
 import 'package:final_year/providers/referrprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/utils/appointmenthttp.dart';
 import 'package:final_year/utils/referralhttp.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +28,7 @@ class _ReferralsListState extends State<ReferralsList> {
   Widget build(BuildContext context) {
     String token = Provider.of<TokenProvider>(context).token;
     String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
+    String ip = Provider.of<IpProvider>(context,listen: false).ipnumber;
     print(token);
     final today = DateTime.now();
     return ListView.builder(
@@ -77,7 +80,7 @@ class _ReferralsListState extends State<ReferralsList> {
                                     try {
                                       final referrdata =
                                           await ReferrState.fetchReferral(
-                                              cardnumber, referid, token);
+                                              cardnumber, referid, token,ip);
                                       Provider.of<ReferrProvider>(context,
                                               listen: false)
                                           .referr = referrdata;
@@ -133,8 +136,11 @@ class _ReferralsListState extends State<ReferralsList> {
                                 .green, // Customize the icon color if needed
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            "Referred By: ${referral['referring_hospital']}",
+                          Expanded(
+                            child: Text(
+                              "Referred By: ${referral['referring_hospital']}",
+                             softWrap: true,
+                            ),
                           ),
                         ],
                       ),
@@ -147,8 +153,11 @@ class _ReferralsListState extends State<ReferralsList> {
                                 .blue, // Customize the icon color if needed
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            "Referred To: ${referral['receiving_hospital']}",
+                          Expanded(
+                            child: Text(
+                              "Referred To: ${referral['receiving_hospital']}",
+                              softWrap: true,
+                            ),
                           ),
                         ],
                       ),
@@ -180,7 +189,7 @@ class _ReferralsListState extends State<ReferralsList> {
                                     try {
                                       final appointmentdata =
                                           await AppointmentState.fetchReferral(
-                                              referralcard, referrdate, token);
+                                              referralcard, referrdate, token,ip);
                                       Provider.of<AppointmentDaysProvider>(context,
                                               listen: false)
                                           .days = appointmentdata;

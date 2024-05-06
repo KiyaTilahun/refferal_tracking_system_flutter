@@ -3,10 +3,10 @@ import 'dart:convert';
 
 class LoginState {
   static Future<Map<String, dynamic>> fetchPatientData(
-      String referralId, String token) async {
+      String referralId, String token,String ip) async {
     // print("result");
 
-    final url = 'http://127.0.0.1:8000/api/patient/$referralId';
+    final url = 'http://$ip/api/patient/$referralId';
 
     final response = await http.get(
       Uri.parse(url),

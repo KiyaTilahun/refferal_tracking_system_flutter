@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:final_year/main.dart';
+import 'package:final_year/providers/cardNumberprovider.dart';
+import 'package:final_year/providers/ipprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
+import 'package:final_year/providers/referrprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
 
 import 'package:final_year/theme/appTheme.dart';
@@ -23,8 +26,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
+  bool isLoader = false;
   final _textController = TextEditingController();
   final _tokenController = TextEditingController();
+  final _networkContoller = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   late AnimationController _controller;
@@ -156,6 +161,28 @@ class _LoginPageState extends State<LoginPage>
                           _text = newValue!;
                         },
                       ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        controller: _networkContoller,
+                        decoration: InputDecoration(
+                          labelText: "Ip Address",
+                          border: OutlineInputBorder(),
+                          hintText: 'Type here...',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              _networkContoller.clear();
+                            },
+                            icon: Icon(Icons.clear),
+                          ),
+                        ),
+                        validator: (reference) {
+                          if (reference!.isEmpty) {
+                            return 'Please enter valid Ip';
+                          }
+
+                          return null;
+                        },
+                      ),
                       SizedBox(
                           height:
                               20.0), // Add space between TextField and button
@@ -166,67 +193,92 @@ class _LoginPageState extends State<LoginPage>
                           foregroundColor: MaterialStateProperty.all<Color>(
                               Colors.white), // Change text color
                         ),
-                        onPressed: () async {
-                      //     if (_formKey.currentState!.validate()) {
-                      //       final referralId = _textController.text;
-                      //       final token = _tokenController.text;
-                      //       try {
-                      //         // print(token);
-                      //         final patientData =
-                      //             await LoginState.fetchPatientData(
-                      //                 referralId, token);
-                      //         // ignore: use_build_context_synchronously
-                      //         Provider.of<TokenProvider>(context, listen: false)
-                      //             .token = token;
-                      //              Provider.of<PatientProvider>(context, listen: false)
-                      //             .patient = patientData;
-                      //         // print('Patient Data: $patientData');
-                      //         // Log the result or process further
-                      //         Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
-                      // );
-                      //       } catch (e) {
-                      //         ScaffoldMessenger.of(context).showSnackBar(
-                      //           SnackBar(
-                      //               content: Text(
-                      //                   'Error: Check Your Card or Token')), // Display error message
-                      //         );
-                      //       }
-                      //     }
+                        onPressed: (!isLoader)
+                            ? () async {
+                                //     if (_formKey.currentState!.validate()) {
+                                //       final referralId = _textController.text;
+                                //       final token = _tokenController.text;
+                                //       try {
+                                //         // print(token);
+                                //         final patientData =
+                                //             await LoginState.fetchPatientData(
+                                //                 referralId, token);
+                                //         // ignore: use_build_context_synchronously
+                                //         Provider.of<TokenProvider>(context, listen: false)
+                                //             .token = token;
+                                //              Provider.of<PatientProvider>(context, listen: false)
+                                //             .patient = patientData;
+                                //         // print('Patient Data: $patientData');
+                                //         // Log the result or process further
+                                //         Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
+                                // );
+                                //       } catch (e) {
+                                //         ScaffoldMessenger.of(context).showSnackBar(
+                                //           SnackBar(
+                                //               content: Text(
+                                //                   'Error: Check Your Card or Token')), // Display error message
+                                //         );
+                                //       }
+                                //     }
 
+                                if (_formKey.currentState!.validate()) {
+                                  final referralId = _textController.text;
+                                  final token = _tokenController.text;
+                                  final ipadress = _networkContoller.text;
+                                  try {
+                                    setState(() {
+                                      isLoader = true;
+                                    });
+                                    // final patientData =
+                                    //     await LoginState.fetchPatientData(
+                                    //         "REF8700H1Dkiya052024",
+                                    //         "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4",
+                                    //         "127.0.0.1:8000");
 
-                            final referralId = _textController.text;
-                            final token = _tokenController.text;
-                            try {
-                              // print(token);
-                              final patientData =
-                                  await LoginState.fetchPatientData(
-                                      "REF8700H1Dkiya052024", "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4");
-                              // ignore: use_build_context_synchronously
-                              // Provider.of<TokenProvider>(context, listen: false)
-                              //     .token = token;
-                         Provider.of<TokenProvider>(context, listen: false)
-                                  .token = "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4";     
-                                   Provider.of<PatientProvider>(context, listen: false)
-                                  .patient = patientData;
-                              // print('Patient Data: $patientData');
-                              // Log the result or process further
-                              Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
-                      );
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text(
-                                        'Error: Check Your Card or Token')), // Display error message
-                              );
-                            }
-                      
+                                              final patientData =
+                                             await LoginState.fetchPatientData(
+                                                 referralId, token,ipadress);
+                                    if (patientData != null) {
+                                      Provider.of<TokenProvider>(context,
+                                                  listen: false)
+                                              .token =
+                                          "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4";
+                                      Provider.of<IpProvider>(context,
+                                              listen: false)
+                                          .ipnumber = ipadress;
 
+                                      // Provider.of<CardNumberProvider>(context,
+                                      //         listen: false)
+                                      //     .cardnumber = referralId;
 
-                          // if (_formKey.currentState!.validate()) {
-                          //   Navigator.pushNamed(context, "/welcome_page");
-                          // }
-                        },
-                        child: Text(AppLocalizations.of(context)!.submit),
+                                      Provider.of<PatientProvider>(context,
+                                              listen: false)
+                                          .patient = patientData;
+                                      // print('Patient Data: $patientData');
+                                      // Log the result or process further
+                                      Navigator.pushNamed(
+                                        context,
+                                        "/welcome_page",
+                                        arguments: patientData,
+                                      );
+                                    }
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Error: Check Your Card or Token')), // Display error message
+                                    );
+                                  } finally {
+                                    setState(() {
+                                      isLoader = false;
+                                    });
+                                  }
+                                }
+                              }
+                            : null,
+                        child: isLoader
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : Text("Submit"),
                       ),
                     ]),
               )),

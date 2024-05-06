@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 
 class ReferrState {
   static Future<Map<String, dynamic>> fetchReferral(
-      String referralId, String id, String token) async {
+      String referralId, String id, String token,String ip) async {
     // print(referralId);
     print(token);
-    final url = 'http://127.0.0.1:8000/api/referral/$referralId/referrid/$id';
+    final url = 'http://$ip/api/referral/$referralId/referrid/$id';
 
     final response = await http.get(
       Uri.parse(url),

@@ -2,6 +2,7 @@
 
 import 'package:final_year/providers/appointmentdays.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
+import 'package:final_year/providers/ipprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/utils/authorization.dart';
@@ -40,7 +41,7 @@ class _CalendarState extends State<Calendar> {
     } else {
       _focusedDay = DateTime.now(); // Default focus if no argument is provided
     }
-   final initalapp=DateFormat('yyyy-MM-dd').format(_focusedDay);
+    final initalapp = DateFormat('yyyy-MM-dd').format(_focusedDay);
     @override
     void initState() {
       super.initState();
@@ -55,8 +56,9 @@ class _CalendarState extends State<Calendar> {
     final patient = Provider.of<AppointmentDaysProvider>(context).days;
     String token = Provider.of<TokenProvider>(context).token;
     String cardnumber = Provider.of<CardNumberProvider>(context).cardnumber;
+    String ip = Provider.of<IpProvider>(context, listen: false).ipnumber;
+    String referralcard = Provider.of<CardNumberProvider>(context).cardnumber;
 
-String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
     List<String> enabledDates = List<String>.from(patient["days"]);
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
@@ -120,7 +122,7 @@ String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           ElevatedButton(
@@ -142,7 +144,7 @@ String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
                               ],
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                           if (selected == null)
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -190,7 +192,7 @@ String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
                         ],
                       ),
                     ),
-                      const SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -198,48 +200,58 @@ String referralcard=Provider.of<CardNumberProvider>(context).cardnumber;
                         foregroundColor: Colors.white,
                       ),
                       onPressed: (selected != null && !isLoading)
-      ? () async {
-          setState(() {
-            isLoading = true;
-          });
+                          ? () async {
+                              setState(() {
+                                isLoading = true;
+                              });
 
-          try {
-            String formattedDate = DateFormat('yyyy-MM-dd').format(selected!);
+                              try {
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(selected!);
 
-            await Future.delayed(Duration(seconds: 2));
- final appointmentdata = await UpdateAppointment.fetchReferral( referralcard, initalapp,formattedDate,token);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Formatted Date: $formattedDate")),
-              
-            );
-            try{
-                final patientData =
-                                  await LoginState.fetchPatientData(
-                                      cardnumber, token);
-                                     Provider.of<PatientProvider>(context, listen: false)
-                                  .patient = patientData;  
+                                await Future.delayed(Duration(seconds: 2));
+                                final appointmentdata =
+                                    await UpdateAppointment.fetchReferral(
+                                        referralcard,
+                                        initalapp,
+                                        formattedDate,
+                                        token,
+                                        ip);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "Formatted Date: $formattedDate")),
+                                );
+                                try {
+                                  final patientData =
+                                      await LoginState.fetchPatientData(
+                                          cardnumber, token, ip);
+                                  Provider.of<PatientProvider>(context,
+                                          listen: false)
+                                      .patient = patientData;
 
-                                    Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
-                      );
-              }
-              catch(e){
-
-              }
-          } catch (e) {
-            
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("An error occurred: Unable to update try another dates")),
-            );
-          } finally {
-            setState(() {
-              isLoading = false;
-            });
-          }
-      }
-      : null,
-  child: isLoading
-      ? CircularProgressIndicator(color: Colors.white)
-      : Text("Update"),
+                                  Navigator.pushNamed(
+                                    context,
+                                    "/welcome_page",
+                                    arguments: patientData,
+                                  );
+                                } catch (e) {}
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "An error occurred: Unable to update try another dates")),
+                                );
+                              } finally {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            }
+                          : null,
+                      child: isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text("Update"),
                     ),
                   ],
                 ),

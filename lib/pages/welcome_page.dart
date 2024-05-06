@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings, prefer_conditional_assignment
 
 import 'package:final_year/helper/referrallist.dart';
+import 'package:final_year/pages/mainpage.dart';
+// import 'package:final_year/providers/appointmentdays.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
+import 'package:final_year/providers/ipprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
+import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/theme/appTheme.dart';
 import 'package:final_year/theme/themes.dart';
+import 'package:final_year/utils/authorization.dart';
 import 'package:final_year/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,36 +24,51 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-   Map<String, dynamic>? patient;
-   bool isRefreshing = true;
-    @override
+  bool isRefreshing = false;
+  Map<String, dynamic>? patient;
+
+  @override
   void initState() {
     super.initState();
-    _refreshData(); // Initial data fetch
+WidgetsBinding.instance.addPostFrameCallback((_) {
+      _refreshData();
+    });
+    // _refreshData();
+    isRefreshing = false; // Initial data fetch
   }
 
   Future<void> _refreshData() async {
-     setState(() {
-      isRefreshing = true; 
-    });
-    await Provider.of<PatientProvider>(context, listen: false).fetchPatientData(); 
     setState(() {
-      patient = Provider.of<PatientProvider>(context, listen: false).patient; 
-      isRefreshing = false; 
-
+      isRefreshing = true;
     });
+    String token = Provider.of<TokenProvider>(context,listen: false).token;
+    String card = Provider.of<CardNumberProvider>(context,listen: false).cardnumber;
+    String ip = Provider.of<IpProvider>(context,listen: false).ipnumber;
+    
+    print(card + token);
+    try {
+      var patientdata = await LoginState.fetchPatientData(card, token,ip);
+      print(patientdata);
+      setState(() {
+        patient = patientdata;
+        print(patient);
+        isRefreshing = false;
+        Provider.of<PatientProvider>(context, listen: false).patient =
+            patientdata;
+      });
+    } catch (e) {
+      print("error");
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
+    //  Provider.of<AppointmentDaysProvider>(context).days = {};
     ThemeData theme = Provider.of<ThemeProvider>(context).themedata;
 
     bool dark = theme == darkTheme ? true : false;
 
-   
-      patient = Provider.of<PatientProvider>(context).patient;
-    
+    patient = Provider.of<PatientProvider>(context).patient;
 
     Provider.of<CardNumberProvider>(context, listen: false).cardnumber =
         patient?['patient']['Referral Id'];
@@ -59,14 +79,16 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
         appBar: AppBar(
           actions: [
-             if (isRefreshing)
-            Center(
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(color: Colors.white), 
+            if (isRefreshing)
+              Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    color: theme == darkTheme ? Colors.white : Colors.green,
+                  ),
+                ),
               ),
-            ),
             IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/detail");
@@ -83,25 +105,47 @@ class _WelcomePageState extends State<WelcomePage> {
                   });
                 },
                 icon: dark ? icons[0] : icons[1]),
-                 IconButton(
-            icon: Icon(Icons.refresh), 
-            onPressed: _refreshData, 
-          ),
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: _refreshData,
+            ),
           ],
           title: Text(AppLocalizations.of(context)!.welcome),
         ),
         drawer: Drawer(
+           
             child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              // decoration: BoxDecoration(
-              //   color: Colors.blue,
-              // ),
-              child: Image.asset(
-                'assets/images/logo.png',
+            // DrawerHeader(
+            //   // decoration: BoxDecoration(
+            //   //   color: Colors.blue,
+            //   // ),
+             
+            // ),
+
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+             child: Image.asset(
+                'assets/images/mylogo.png',
                 fit: BoxFit.cover,
               ),
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+             ListTile(
+                // leading: Icon(Icons.language_rounded),
+
+                leading: Language().buildLanguageDropdown(context)),
+                 Divider(
+              height: 1,
+              thickness: 1,
+            ),
+             Divider(
+              height: 1,
+              thickness: 1,
             ),
             ListTile(
               leading: Icon(Icons.logout_outlined),
@@ -111,16 +155,15 @@ class _WelcomePageState extends State<WelcomePage> {
                 Navigator.popUntil(context, ModalRoute.withName("/"));
               },
             ),
-            ListTile(
-                // leading: Icon(Icons.language_rounded),
-
-                leading: Language().buildLanguageDropdown(context)),
+            
+           
           ],
         ) // Populate the Drawer in the next step.
             ),
         body: Expanded(
-            
-            child: RefreshIndicator(onRefresh:_refreshData,child: ReferralsList(referrals: referrals))));
+            child: RefreshIndicator(
+                onRefresh: _refreshData,
+                child: ReferralsList(referrals: referrals))));
   }
 }
 

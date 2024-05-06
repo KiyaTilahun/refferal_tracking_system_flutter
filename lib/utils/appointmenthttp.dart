@@ -8,11 +8,11 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 class AppointmentState {
   static Future<Map<String, dynamic>> fetchReferral(
-      String referralId, String date, String token) async {
+      String referralId, String date, String token,String ip) async {
     // print(referralId);
     print(token);
 
-    final url = 'http://127.0.0.1:8000/api/referral/change/$referralId/date/$date/appointment';
+    final url = 'http://$ip/api/referral/change/$referralId/date/$date/appointment';
 
     final response = await http.get(
       Uri.parse(url),

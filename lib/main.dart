@@ -8,6 +8,7 @@ import 'package:final_year/pages/referraldetail.dart';
 import 'package:final_year/pages/welcome_page.dart';
 import 'package:final_year/providers/appointmentdays.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
+import 'package:final_year/providers/ipprovider.dart';
 import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/providers/referrprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
@@ -31,6 +32,8 @@ void main()  {
         ChangeNotifierProvider(create: (_) => CardNumberProvider()),//cardnnumber holder
         ChangeNotifierProvider(create: (_) => ReferrProvider()),  // referr detail management
         ChangeNotifierProvider(create: (_) => AppointmentDaysProvider()),  // Appointment days management
+        ChangeNotifierProvider(create: (_) => IpProvider()),  // Appointment days management
+
 
          
 
