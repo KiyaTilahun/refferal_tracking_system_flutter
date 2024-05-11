@@ -8,6 +8,8 @@ import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/utils/appointmenthttp.dart';
 import 'package:final_year/utils/referralhttp.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +68,7 @@ class _ReferralsListState extends State<ReferralsList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Referral ID: ${referral['id']}",
+                            "ID: ${referral['id']}",
                           ),
                           ElevatedButton.icon(
                             onPressed: _loadingIndex == index
@@ -91,12 +93,21 @@ class _ReferralsListState extends State<ReferralsList> {
                                         "/referral_detail",
                                       );
                                     } catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Error:$e')), // Display error message
-                                      );
+                                       ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.red.shade400,
+                                        action: SnackBarAction(
+                                          label: AppLocalizations.of(
+                                                context)!
+                                            .ok,
+
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .loginerror)), // Display error message
+                                  );
                                     } finally {
                                       setState(() {
                                         _loadingIndex = null; // Start loading
@@ -116,7 +127,11 @@ class _ReferralsListState extends State<ReferralsList> {
                             label: _loadingIndex == index
                                 ? Text("") // Empty text during loading
                                 : Text(
-                                    referral['statustype'],
+                                    referral['statustype']=='completed'?AppLocalizations.of(
+                                                context)!
+                                            .completed:AppLocalizations.of(
+                                                context)!
+                                            .pending,
                                     style: TextStyle(
                                         color: referral['statustype'] ==
                                                 'completed'
@@ -138,7 +153,9 @@ class _ReferralsListState extends State<ReferralsList> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "Referred By: ${referral['referring_hospital']}",
+                              AppLocalizations.of(
+                                                context)!
+                                            .referredBy + referral['referring_hospital'],
                              softWrap: true,
                             ),
                           ),
@@ -155,7 +172,9 @@ class _ReferralsListState extends State<ReferralsList> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "Referred To: ${referral['receiving_hospital']}",
+                              AppLocalizations.of(
+                                                context)!
+                                            .referredTo+referral['receiving_hospital'],
                               softWrap: true,
                             ),
                           ),
@@ -178,7 +197,9 @@ class _ReferralsListState extends State<ReferralsList> {
                             children: [
                               Text(
                                 // "Referral Date: ${referral['referral_date']}",
-                                "Referral Date: $datename",
+                                AppLocalizations.of(
+                                                context)!
+                                            .appointementDate+datename,
                               ),
                               if (referralDate.isAfter(today) &&
                                   referral['statustype'] == "pending")
@@ -200,9 +221,20 @@ class _ReferralsListState extends State<ReferralsList> {
                                         "/edit",arguments: referrdate
                                       );
                                     } catch (e) {
-                                       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error occurred: Try Again Later')),
-      );
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.red.shade400,
+                                        action: SnackBarAction(
+                                           label: AppLocalizations.of(
+                                                context)!
+                                            .ok,
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .loginerror)), // Display error message
+                                  );
                                     }
                                     // Navigator.pushNamed(context, "/edit");
                                   },

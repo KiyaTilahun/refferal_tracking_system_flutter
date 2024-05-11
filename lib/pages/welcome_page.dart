@@ -2,6 +2,8 @@
 
 import 'package:final_year/helper/referrallist.dart';
 import 'package:final_year/pages/mainpage.dart';
+import 'package:getwidget/getwidget.dart';
+
 // import 'package:final_year/providers/appointmentdays.dart';
 import 'package:final_year/providers/cardNumberprovider.dart';
 import 'package:final_year/providers/ipprovider.dart';
@@ -78,6 +80,8 @@ class _WelcomePageState extends State<WelcomePage> {
     }
     return Scaffold(
         appBar: AppBar(
+       backgroundColor: Colors.black,
+       foregroundColor: Colors.white,
           actions: [
             if (isRefreshing)
               Center(
@@ -112,7 +116,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
           title: Text(AppLocalizations.of(context)!.welcome),
         ),
-        drawer: Drawer(
+        drawer: GFDrawer(
            
             child: ListView(
           padding: EdgeInsets.zero,

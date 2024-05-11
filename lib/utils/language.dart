@@ -25,6 +25,7 @@ class Language{
             ],
           ),
         ),
+        
         DropdownMenuItem(
           value: 'am',
           child: Row(
@@ -32,6 +33,16 @@ class Language{
               Icon(Icons.language),
               SizedBox(width: 8),
               Text('አማርኛ'),
+            ],
+          ),
+        ),
+         DropdownMenuItem(
+          value: 'es',
+          child: Row(
+            children: [
+              Icon(Icons.language),
+              SizedBox(width: 8),
+              Text('Afaan Oromo'),
             ],
           ),
         ),

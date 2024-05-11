@@ -80,211 +80,222 @@ class _LoginPageState extends State<LoginPage>
               padding: EdgeInsets.all(20.0), // Adjust padding as needed
               child: Form(
                 key: _formKey,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/qrscanner');
-                            },
-                            child: ScaleTransition(
-                              scale: _animation,
-                              child: Row(
-                                children: [
-                                  Text(AppLocalizations.of(context)!.qrcode),
-                                  Icon(Icons.qr_code_scanner)
-                                ],
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/qrscanner');
+                              },
+                              child: ScaleTransition(
+                                scale: _animation,
+                                child: Row(
+                                  children: [
+                                    Text(AppLocalizations.of(context)!.qrcode),
+                                    Icon(Icons.qr_code_scanner)
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.loginPageTitle,
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      TextFormField(
-                        controller: _textController,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.refferalid,
-                          border: OutlineInputBorder(),
-                          hintText: 'Type here...',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _textController.clear();
-                            },
-                            icon: Icon(Icons.clear),
-                          ),
+                          ],
                         ),
-                        validator: (reference) {
-                          if (reference!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          if (reference.length < 5) {
-                            return 'Text must be at least 5 characters long';
-                          }
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _text = newValue!;
-                        },
-                      ),
-                      SizedBox(height: 20.0),
-
-                      TextFormField(
-                        controller: _tokenController,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.token,
-                          border: OutlineInputBorder(),
-                          hintText: 'Type here...',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _tokenController.clear();
-                            },
-                            icon: Icon(Icons.clear),
+                        Text(
+                          AppLocalizations.of(context)!.loginPageTitle,
+                          style: TextStyle(fontSize: 30),
+                        ),
+                      Container(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,children: [  TextFormField(
+                          controller: _textController,
+                        
+                          decoration: InputDecoration(
+                             hintText: AppLocalizations.of(context)!.refferalid,
+                            hintStyle: TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(124, 124, 124, 1),
+                              fontWeight: FontWeight.w600,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _textController.clear();
+                              },
+                              icon: Icon(Icons.clear),
+                            ),
                           ),
+                          validator: (reference) {
+                            if (reference!.isEmpty) {
+                              return AppLocalizations.of(context)!.entervalidtext;
+                            }
+                            if (reference.length < 16) {
+                            return AppLocalizations.of(context)!.smallnumbererror;
+                            }
+                            return null;
+                          },
+                          onSaved: (newValue) {
+                            _text = newValue!;
+                          },
                         ),
-                        validator: (reference) {
-                          if (reference!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          if (reference.length < 5) {
-                            return 'Text must be at least 5 characters long';
-                          }
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _text = newValue!;
-                        },
-                      ),
-                      SizedBox(height: 20.0),
-                      TextFormField(
-                        controller: _networkContoller,
-                        decoration: InputDecoration(
-                          labelText: "Ip Address",
-                          border: OutlineInputBorder(),
-                          hintText: 'Type here...',
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _networkContoller.clear();
-                            },
-                            icon: Icon(Icons.clear),
+                        SizedBox(height: 20.0),
+                  
+                        TextFormField(
+                          controller: _tokenController,
+                              decoration: InputDecoration(
+                             hintText: AppLocalizations.of(context)!.token,
+                            hintStyle: TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(124, 124, 124, 1),
+                              fontWeight: FontWeight.w600,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _tokenController.clear();
+                              },
+                              icon: Icon(Icons.clear),
+                            ),
                           ),
+                          validator: (reference) {
+                            if (reference!.isEmpty) {
+                            return AppLocalizations.of(context)!.entervalidtext;
+                            }
+                            if (reference.length < 5) {
+                              return AppLocalizations.of(context)!.smallnumbererror;
+                            }
+                            return null;
+                          },
+                          onSaved: (newValue) {
+                            _text = newValue!;
+                          },
                         ),
-                        validator: (reference) {
-                          if (reference!.isEmpty) {
-                            return 'Please enter valid Ip';
-                          }
-
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                          height:
-                              20.0), // Add space between TextField and button
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.blue), // Change background color
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Colors.white), // Change text color
+                        SizedBox(height: 20.0),
+                        TextFormField(
+                          controller: _networkContoller,
+                             decoration: InputDecoration(
+                             hintText: "Ip",
+                            hintStyle: TextStyle(
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(124, 124, 124, 1),
+                              fontWeight: FontWeight.w600,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                _networkContoller.clear();
+                              },
+                              icon: Icon(Icons.clear),
+                            ),
+                          ),
+                          validator: (reference) {
+                            if (reference!.isEmpty) {
+                              return 'Please enter valid Ip';
+                            }
+                  
+                            return null;
+                          },
                         ),
-                        onPressed: (!isLoader)
-                            ? () async {
-                                //     if (_formKey.currentState!.validate()) {
-                                //       final referralId = _textController.text;
-                                //       final token = _tokenController.text;
-                                //       try {
-                                //         // print(token);
-                                //         final patientData =
-                                //             await LoginState.fetchPatientData(
-                                //                 referralId, token);
-                                //         // ignore: use_build_context_synchronously
-                                //         Provider.of<TokenProvider>(context, listen: false)
-                                //             .token = token;
-                                //              Provider.of<PatientProvider>(context, listen: false)
-                                //             .patient = patientData;
-                                //         // print('Patient Data: $patientData');
-                                //         // Log the result or process further
-                                //         Navigator.pushNamed(context, "/welcome_page",arguments: patientData,
-                                // );
-                                //       } catch (e) {
-                                //         ScaffoldMessenger.of(context).showSnackBar(
-                                //           SnackBar(
-                                //               content: Text(
-                                //                   'Error: Check Your Card or Token')), // Display error message
-                                //         );
-                                //       }
-                                //     }
+                        SizedBox(
+                            height:
+                                20.0), // Add space between TextField and button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [  ElevatedButton(
 
-                                if (_formKey.currentState!.validate()) {
-                                  final referralId = _textController.text;
-                                  final token = _tokenController.text;
-                                  final ipadress = _networkContoller.text;
-                                  try {
-                                    setState(() {
-                                      isLoader = true;
-                                    });
-                                    // final patientData =
-                                    //     await LoginState.fetchPatientData(
-                                    //         "REF8700H1Dkiya052024",
-                                    //         "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4",
-                                    //         "192.168.1.12:8000");
-
-                                              final patientData =
-                                             await LoginState.fetchPatientData(
-                                                 referralId, token,ipadress);
-                                    if (patientData != null) {
-                                      Provider.of<TokenProvider>(context,
-                                                  listen: false)
-                                              .token =
-                                          token;
-                                      Provider.of<IpProvider>(context,
-                                              listen: false)
-                                          .ipnumber = ipadress;
-
-                                      Provider.of<CardNumberProvider>(context,
-                                              listen: false)
-                                          .cardnumber = referralId;
-
-                                      Provider.of<PatientProvider>(context,
-                                              listen: false)
-                                          .patient = patientData;
-                                      // print('Patient Data: $patientData');
-                                      // Log the result or process further
-                                      Navigator.pushNamed(
-                                        context,
-                                        "/welcome_page",
-                                      );
-                                      // Navigator.pushNamed(
-                                      //   context,
-                                      //   "/demo",
-                                        
-                                      // );
+                          style: ButtonStyle(
+                            
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.blue), // Change background color
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Colors.white), // Change text color
+                          ),
+                          onPressed: (!isLoader)
+                              ? () async {
+                  
+                  // correct this when done
+                                  if (_formKey.currentState!.validate()) {
+                                    final referralId = _textController.text;
+                                    final token = _tokenController.text;
+                                    final ipadress = _networkContoller.text;
+                  
+                                    // final referralId = "REF5588H1Dkiya052024";
+                                    // final token =
+                                    //     "1|yhaROtAYrYv1EmpIvnLiyQXSXDJEbvPmGfxXGI4K8c602292";
+                                    // final ipadress = "127.0.0.1:8000";
+                                    try {
+                                      setState(() {
+                                        isLoader = true;
+                                      });
+                                      // final patientData =
+                                      //     await LoginState.fetchPatientData(
+                                      //         "REF8700H1Dkiya052024",
+                                      //         "1|hWEn5BUnMoWy5SMkoX6jMhhr9AwRlpKT6L0VkOzM239415f4",
+                                      //         "192.168.1.12:8000");
+                  
+                                      final patientData =
+                                          await LoginState.fetchPatientData(
+                                              referralId, token, ipadress);
+                                      if (patientData != null) {
+                                        Provider.of<TokenProvider>(context,
+                                                listen: false)
+                                            .token = token;
+                                        Provider.of<IpProvider>(context,
+                                                listen: false)
+                                            .ipnumber = ipadress;
+                  
+                                        Provider.of<CardNumberProvider>(context,
+                                                listen: false)
+                                            .cardnumber = referralId;
+                  
+                                        Provider.of<PatientProvider>(context,
+                                                listen: false)
+                                            .patient = patientData;
+                                        // print('Patient Data: $patientData');
+                                        // Log the result or process further
+                                        Navigator.pushNamed(
+                                          context,
+                                          "/welcome_page",
+                                        );
+                                        // Navigator.pushNamed(
+                                        //   context,
+                                        //   "/demo",
+                  
+                                        // );
+                                      }
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.red.shade400,
+                                        action: SnackBarAction(
+                                           label: AppLocalizations.of(
+                                                context)!
+                                            .ok,
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .loginerror)), // Display error message
+                                  );
+                                    } finally {
+                                      setState(() {
+                                        isLoader = false;
+                                      });
                                     }
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Error: Check Your Card or Token')), // Display error message
-                                    );
-                                  } finally {
-                                    setState(() {
-                                      isLoader = false;
-                                    });
                                   }
                                 }
-                              }
-                            : null,
-                        child: isLoader
-                            ? CircularProgressIndicator(color: Colors.white)
-                            : Text("Submit"),
-                      ),
-                    ]),
+                              : null,
+                          child: isLoader
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(AppLocalizations.of(
+                                                context)!
+                                            .submit),
+                        )],
+                      )
+                        ],),)
+                      ]),
+                ),
               )),
         ));
   }

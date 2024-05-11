@@ -7,6 +7,8 @@ import 'package:final_year/providers/patientprovider.dart';
 import 'package:final_year/providers/tokenprovide.dart';
 import 'package:final_year/utils/authorization.dart';
 import 'package:final_year/utils/updatehttp.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -63,7 +65,9 @@ class _CalendarState extends State<Calendar> {
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Appointment"),
+          backgroundColor: Colors.black,
+       foregroundColor: Colors.white,
+        title: Text(AppLocalizations.of(context)!.editapp),
       ),
       body: Form(
         key: _formKey,
@@ -118,7 +122,7 @@ class _CalendarState extends State<Calendar> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Change Appointment"),
+                    Text(AppLocalizations.of(context)!.changeapp),
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -139,7 +143,7 @@ class _CalendarState extends State<Calendar> {
                                 SizedBox(
                                     width: 5), // Spacing between icon and text
                                 Text(
-                                  "Initial Appointment : ${DateFormat('MM/dd/yyyy').format(_focusedDay)}",
+                                  AppLocalizations.of(context)!.referredBy+DateFormat('MM/dd/yyyy').format(_focusedDay),
                                 ),
                               ],
                             ),
@@ -162,7 +166,7 @@ class _CalendarState extends State<Calendar> {
                                       width:
                                           5), // Spacing between icon and text
                                   Text(
-                                    "To: YYYY/MM/DD",
+                                    AppLocalizations.of(context)!.referredTo + "YYYY/MM/DD",
                                   ),
                                 ],
                               ),
@@ -184,7 +188,7 @@ class _CalendarState extends State<Calendar> {
                                       width:
                                           5), // Spacing between icon and text
                                   Text(
-                                    "To: ${DateFormat('MM/dd/yyyy').format(selected!)}",
+                                    AppLocalizations.of(context)!.referredTo+DateFormat('MM/dd/yyyy').format(selected!),
                                   ),
                                 ],
                               ),
@@ -218,10 +222,17 @@ class _CalendarState extends State<Calendar> {
                                         token,
                                         ip);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          "Formatted Date: $formattedDate")),
-                                );
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.green.shade600,
+                                        action: SnackBarAction(
+                                          label: 'Ok',
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .appsuccess)), // Display error message
+                                  );
                                 try {
                                   final patientData =
                                       await LoginState.fetchPatientData(
@@ -235,13 +246,38 @@ class _CalendarState extends State<Calendar> {
                                     "/welcome_page",
                                     arguments: patientData,
                                   );
-                                } catch (e) {}
+                                } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.red.shade400,
+                                        action: SnackBarAction(
+                                          label: AppLocalizations.of(
+                                                context)!
+                                            .ok,
+
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .loginerror)), // Display error message
+                                  );
+                                }
                               } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                          "An error occurred: Unable to update try another dates")),
-                                );
+                                 ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        showCloseIcon: true,
+                                        backgroundColor: Colors.red.shade400,
+                                        action: SnackBarAction(
+                                           label: AppLocalizations.of(
+                                                context)!
+                                            .ok,
+                                          onPressed: () {},
+                                        ),
+                                        content: Text(AppLocalizations.of(
+                                                context)!
+                                            .apperror)), // Display error message
+                                  );
                               } finally {
                                 setState(() {
                                   isLoading = false;
@@ -251,7 +287,7 @@ class _CalendarState extends State<Calendar> {
                           : null,
                       child: isLoading
                           ? CircularProgressIndicator(color: Colors.white)
-                          : Text("Update"),
+                          : Text(AppLocalizations.of(context)!.update),
                     ),
                   ],
                 ),

@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter',
       supportedLocales: [Locale('en'),
-      Locale('am'),
+      Locale('am'),Locale('es'),
     ],
       localizationsDelegates: [
         AppLocalizations.delegate,

@@ -3,6 +3,8 @@
 import 'package:final_year/providers/referrprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ReferrDetail extends StatefulWidget {
   const ReferrDetail({super.key});
@@ -31,6 +33,8 @@ class _ReferrDetailState extends State<ReferrDetail> {
     ];
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
         actions: [
           Container(
             decoration: BoxDecoration(
@@ -53,7 +57,11 @@ class _ReferrDetailState extends State<ReferrDetail> {
             children: [
               Icon(Icons.calendar_month,color: Colors.white,), // Leading icon
               SizedBox(width: 8), // Space between icon and text
-              Text("${patientdata['Status']}",style: TextStyle(color: Colors.white),), // Button text
+              Text(patientdata['Status']=='completed'?AppLocalizations.of(
+                                                context)!
+                                            .completed:AppLocalizations.of(
+                                                context)!
+                                            .pending,style: TextStyle(color: Colors.white),), // Button text
             ],
           ),
         ),
@@ -68,7 +76,7 @@ class _ReferrDetailState extends State<ReferrDetail> {
               },
             ),
         ],
-        title: Text("Referral Detail"),
+        title: Text(AppLocalizations.of(context)!.detailtitle),
       ),
       body: Center(
         child: Card(

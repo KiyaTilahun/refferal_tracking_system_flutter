@@ -6,6 +6,8 @@
 import 'package:final_year/providers/patientprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Detail extends StatelessWidget {
   const Detail({super.key});
@@ -37,7 +39,11 @@ class Detail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Information"),
+         backgroundColor: Colors.black,
+       foregroundColor: Colors.white,
+        title: Text(AppLocalizations.of(
+                                                context)!
+                                            .profile),
       ),
       body: Center(
         child: Card(
