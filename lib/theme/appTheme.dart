@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
-import 'package:final_year/theme/themes.dart';
+import 'package:PRTS/theme/themes.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {

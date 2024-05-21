@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'package:final_year/providers/appointmentdays.dart';
-import 'package:final_year/providers/cardNumberprovider.dart';
-import 'package:final_year/providers/ipprovider.dart';
-import 'package:final_year/providers/referrprovider.dart';
-import 'package:final_year/providers/tokenprovide.dart';
-import 'package:final_year/utils/appointmenthttp.dart';
-import 'package:final_year/utils/referralhttp.dart';
+import 'package:PRTS/providers/appointmentdays.dart';
+import 'package:PRTS/providers/cardNumberprovider.dart';
+import 'package:PRTS/providers/ipprovider.dart';
+import 'package:PRTS/providers/referrprovider.dart';
+import 'package:PRTS/providers/tokenprovide.dart';
+import 'package:PRTS/utils/appointmenthttp.dart';
+import 'package:PRTS/utils/referralhttp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

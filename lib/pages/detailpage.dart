@@ -3,7 +3,7 @@
 // import 'dart:convert';
 // import 'dart:js';
 
-import 'package:final_year/providers/patientprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

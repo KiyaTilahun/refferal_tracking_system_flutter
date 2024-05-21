@@ -1,4 +1,4 @@
-import 'package:final_year/providers/patientprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

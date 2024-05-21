@@ -1,18 +1,18 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace, unnecessary_import, prefer_interpolation_to_compose_strings, prefer_conditional_assignment
 
-import 'package:final_year/helper/referrallist.dart';
-import 'package:final_year/pages/mainpage.dart';
+import 'package:PRTS/helper/referrallist.dart';
+import 'package:PRTS/pages/mainpage.dart';
 import 'package:getwidget/getwidget.dart';
 
-// import 'package:final_year/providers/appointmentdays.dart';
-import 'package:final_year/providers/cardNumberprovider.dart';
-import 'package:final_year/providers/ipprovider.dart';
-import 'package:final_year/providers/patientprovider.dart';
-import 'package:final_year/providers/tokenprovide.dart';
-import 'package:final_year/theme/appTheme.dart';
-import 'package:final_year/theme/themes.dart';
-import 'package:final_year/utils/authorization.dart';
-import 'package:final_year/utils/language.dart';
+// import 'package:PRTS/providers/appointmentdays.dart';
+import 'package:PRTS/providers/cardNumberprovider.dart';
+import 'package:PRTS/providers/ipprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
+import 'package:PRTS/providers/tokenprovide.dart';
+import 'package:PRTS/theme/appTheme.dart';
+import 'package:PRTS/theme/themes.dart';
+import 'package:PRTS/utils/authorization.dart';
+import 'package:PRTS/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,21 +1,21 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
-import 'package:final_year/main.dart';
-import 'package:final_year/providers/cardNumberprovider.dart';
-import 'package:final_year/providers/ipprovider.dart';
-import 'package:final_year/providers/patientprovider.dart';
-import 'package:final_year/providers/referrprovider.dart';
-import 'package:final_year/providers/tokenprovide.dart';
+import 'package:PRTS/main.dart';
+import 'package:PRTS/providers/cardNumberprovider.dart';
+import 'package:PRTS/providers/ipprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
+import 'package:PRTS/providers/referrprovider.dart';
+import 'package:PRTS/providers/tokenprovide.dart';
 
-import 'package:final_year/theme/appTheme.dart';
-import 'package:final_year/utils/authorization.dart';
-import 'package:final_year/utils/language.dart';
+import 'package:PRTS/theme/appTheme.dart';
+import 'package:PRTS/utils/authorization.dart';
+import 'package:PRTS/utils/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:final_year/theme/themes.dart';
+import 'package:PRTS/theme/themes.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

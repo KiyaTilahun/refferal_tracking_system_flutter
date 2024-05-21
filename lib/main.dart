@@ -1,20 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:final_year/pages/calendarpage.dart';
-import 'package:final_year/pages/demo.dart';
-import 'package:final_year/pages/detailpage.dart';
-import 'package:final_year/pages/mainpage.dart';
-import 'package:final_year/pages/qrscanner.dart';
-import 'package:final_year/pages/referraldetail.dart';
-import 'package:final_year/pages/welcome_page.dart';
-import 'package:final_year/providers/appointmentdays.dart';
-import 'package:final_year/providers/cardNumberprovider.dart';
-import 'package:final_year/providers/ipprovider.dart';
-import 'package:final_year/providers/patientprovider.dart';
-import 'package:final_year/providers/referrprovider.dart';
-import 'package:final_year/providers/tokenprovide.dart';
-import 'package:final_year/theme/appTheme.dart';
-import 'package:final_year/theme/themes.dart';
+import 'package:PRTS/pages/calendarpage.dart';
+import 'package:PRTS/pages/demo.dart';
+import 'package:PRTS/pages/detailpage.dart';
+import 'package:PRTS/pages/mainpage.dart';
+import 'package:PRTS/pages/qrscanner.dart';
+import 'package:PRTS/pages/referraldetail.dart';
+import 'package:PRTS/pages/welcome_page.dart';
+import 'package:PRTS/providers/appointmentdays.dart';
+import 'package:PRTS/providers/cardNumberprovider.dart';
+import 'package:PRTS/providers/ipprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
+import 'package:PRTS/providers/referrprovider.dart';
+import 'package:PRTS/providers/tokenprovide.dart';
+import 'package:PRTS/theme/appTheme.dart';
+import 'package:PRTS/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, unused_element, deprecated_member_use, avoid_print, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
-import 'package:final_year/providers/appointmentdays.dart';
-import 'package:final_year/providers/cardNumberprovider.dart';
-import 'package:final_year/providers/ipprovider.dart';
-import 'package:final_year/providers/patientprovider.dart';
-import 'package:final_year/providers/tokenprovide.dart';
-import 'package:final_year/utils/authorization.dart';
-import 'package:final_year/utils/updatehttp.dart';
+import 'package:PRTS/providers/appointmentdays.dart';
+import 'package:PRTS/providers/cardNumberprovider.dart';
+import 'package:PRTS/providers/ipprovider.dart';
+import 'package:PRTS/providers/patientprovider.dart';
+import 'package:PRTS/providers/tokenprovide.dart';
+import 'package:PRTS/utils/authorization.dart';
+import 'package:PRTS/utils/updatehttp.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/cupertino.dart';
